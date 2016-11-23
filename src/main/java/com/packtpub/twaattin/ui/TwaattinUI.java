@@ -22,13 +22,7 @@ public class TwaattinUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
-        HorizontalSplitPanel panel = new HorizontalSplitPanel();
-
-        panel.setFirstComponent(new LoginScreen());
-        panel.setSecondComponent(new TimelineScreen());
-        panel.setSplitPosition(400, PIXELS);
-
-        setContent(panel);
+        setContent(new LoginScreen());
     }
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
