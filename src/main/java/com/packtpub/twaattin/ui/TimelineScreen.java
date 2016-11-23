@@ -1,11 +1,10 @@
 package com.packtpub.twaattin.ui;
 
 import com.packtpub.twaattin.presenter.LogoutBehavior;
+import com.packtpub.twaattin.presenter.TweetRefresherBehavior;
+import com.packtpub.twaattin.ui.decorator.*;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 
 import java.security.Principal;
 
@@ -28,7 +27,24 @@ public class TimelineScreen extends VerticalLayout {
         menuBar.setComponentAlignment(button, MIDDLE_RIGHT);
 
         addComponent(menuBar);
-        fillTweets();
+        addComponentAttachListener(new TweetRefresherBehavior());
+
+        Table table = new Table();
+
+        addComponent(table);
+
+        table.addGeneratedColumn("source", new SourceColumnDecorator());
+        table.addGeneratedColumn("screeName", new ScreenNameColumnGenerator());
+        table.addGeneratedColumn("name", new NameColumnGenerator());
+        table.addGeneratedColumn("profileImage", new ProfileImageColumnGenerator());
+        table.addGeneratedColumn("text", new TweetColumnDecorator());
+        table.setColumnHeader("source", "via");
+        table.setColumnHeader("screenName", "Screen name");
+        table.setColumnHeader("profileImage", "");
+        table.setColumnHeader("text", "Tweet");
+        table.setVisibleColumns(new Object[] {
+                "text", "name", "screenName", "profileImage", "createdAt", "source"
+        });
     }
 
     public void fillTweets() {

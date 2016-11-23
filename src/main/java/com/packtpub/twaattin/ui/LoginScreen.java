@@ -1,25 +1,31 @@
 package com.packtpub.twaattin.ui;
 
 import com.packtpub.twaattin.presenter.LoginBehavior;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.FormLayout;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextField;
+import com.packtpub.twaattin.service.TwitterService;
+import com.vaadin.server.ExternalResource;
+import com.vaadin.ui.*;
 
 
-public class LoginScreen extends FormLayout {
+public class LoginScreen extends VerticalLayout {
 
-    private TextField loginField = new TextField("Login", "packtpub");
-    private PasswordField passwordField = new PasswordField("Password");
+    private Link twitterLink = new Link();
+    private TextField pinField = new TextField();
     private Button submitButton = new Button("Submit");
 
     public LoginScreen() {
         setMargin(true);
+        setSpacing(true);
 
-        addComponent(loginField);
-        addComponent(passwordField);
+        twitterLink.setCaption("Get PIN");
+        twitterLink.setTargetName("twitterauth");
+        twitterLink.setResource(new ExternalResource(TwitterService.get().getAuthenticationUrl()));
+
+        pinField.setInputPrompt("PIN");
+
+        addComponent(twitterLink);
+        addComponent(pinField);
         addComponent(submitButton);
 
-        submitButton.addClickListener(new LoginBehavior(loginField, passwordField));
+        submitButton.addClickListener(new LoginBehavior(pinField));
     }
 }

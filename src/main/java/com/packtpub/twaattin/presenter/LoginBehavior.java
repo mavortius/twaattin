@@ -1,31 +1,34 @@
 package com.packtpub.twaattin.presenter;
 
-import static com.vaadin.ui.Notification.Type.ERROR_MESSAGE;
-
 import com.packtpub.twaattin.authentication.AuthenticationException;
-import com.packtpub.twaattin.authentication.SimpleUserPasswordAuthenticationStrategy;
+import com.packtpub.twaattin.authentication.TwitterAuthenticationStrategy;
 import com.packtpub.twaattin.ui.TimelineScreen;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.UI;
 
 import java.security.Principal;
 
+import static com.vaadin.ui.Notification.Type.ERROR_MESSAGE;
+
+/**
+ * Login behavior delegates to a predefined authentication strategy.
+ */
 public class LoginBehavior implements Button.ClickListener {
 
-    private final TextField loginField;
-    private final PasswordField passwordField;
+    private final TextField pinField;
 
-    public LoginBehavior(TextField loginField, PasswordField passwordField) {
-        this.loginField = loginField;
-        this.passwordField = passwordField;
+    public LoginBehavior(TextField pinField) {
+        this.pinField = pinField;
     }
 
     @Override
     public void buttonClick(Button.ClickEvent event) {
         try {
-            String login = loginField.getValue();
-            String password = passwordField.getValue();
-            Principal user = new SimpleUserPasswordAuthenticationStrategy().authenticate(login, password);
+            String pin = pinField.getValue();
+            Principal user = new TwitterAuthenticationStrategy().authenticate(pin);
 
             VaadinSession.getCurrent().setAttribute(Principal.class, user);
             UI.getCurrent().setContent(new TimelineScreen());
