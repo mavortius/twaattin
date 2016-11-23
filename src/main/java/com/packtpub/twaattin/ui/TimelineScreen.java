@@ -16,7 +16,6 @@ public class TimelineScreen extends VerticalLayout {
 
     public TimelineScreen() {
         setMargin(true);
-        fillTweets();
 
         Label label = new Label(VaadinSession.getCurrent().getAttribute(Principal.class).getName());
         Button button = new Button("Logout");
@@ -26,6 +25,7 @@ public class TimelineScreen extends VerticalLayout {
         HorizontalLayout menuBar = new HorizontalLayout(label, button);
 
         addComponent(menuBar);
+        fillTweets();
     }
 
     public void fillTweets() {
