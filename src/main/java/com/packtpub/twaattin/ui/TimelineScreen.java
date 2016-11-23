@@ -1,9 +1,5 @@
 package com.packtpub.twaattin.ui;
 
-import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
-import static com.vaadin.ui.Alignment.BOTTOM_RIGHT;
-import static com.vaadin.ui.Alignment.MIDDLE_RIGHT;
-
 import com.packtpub.twaattin.presenter.LogoutBehavior;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
@@ -12,6 +8,9 @@ import com.vaadin.ui.Label;
 import com.vaadin.ui.VerticalLayout;
 
 import java.security.Principal;
+
+import static com.vaadin.server.Sizeable.Unit.PERCENTAGE;
+import static com.vaadin.ui.Alignment.MIDDLE_RIGHT;
 
 public class TimelineScreen extends VerticalLayout {
 
