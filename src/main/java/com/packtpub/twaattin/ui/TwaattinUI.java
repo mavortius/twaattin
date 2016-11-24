@@ -1,14 +1,15 @@
 package com.packtpub.twaattin.ui;
 
-import static com.vaadin.server.Sizeable.Unit.PIXELS;
-
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
-import com.vaadin.ui.*;
+import com.vaadin.ui.UI;
+import twitter4j.Twitter;
+import twitter4j.TwitterFactory;
+import twitter4j.conf.ConfigurationBuilder;
+
+import javax.servlet.annotation.WebServlet;
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window 
@@ -27,6 +28,5 @@ public class TwaattinUI extends UI {
 
     @WebServlet(urlPatterns = "/*", name = "MyUIServlet", asyncSupported = true)
     @VaadinServletConfiguration(ui = TwaattinUI.class, productionMode = false)
-    public static class MyUIServlet extends VaadinServlet {
-    }
+    public static class MyUIServlet extends VaadinServlet {   }
 }

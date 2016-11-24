@@ -4,9 +4,13 @@ import com.vaadin.data.Item;
 import com.vaadin.data.util.BeanItem;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.Table;
+import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.URLEntity;
+import twitter4j.UserMentionEntity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -44,6 +48,41 @@ public class TweetColumnDecorator implements Table.ColumnGenerator {
         return new Label(builder.toString(), HTML);
     }
 
+    void createFragmentsWithMention(UserMentionEntity[] mentions) {
+        if(mentions != null) {
+            for(UserMentionEntity mention : mentions) {
+                int start = mention.getStart();
+                int end = mention.getEnd();
+                String screenName = mention.getScreenName();
+                String url = TWITTER_USER_URL + screenName;
+                String href = "<a href='" + url + "' target='" + screenName + "'>";
+                TweetFragment fragment = new TweetFragment(start, end, href + '@' + screenName + "</a>");
+
+                fragments.add(fragment);
+            }
+        }
+    }
+
+    void createFragmentsWithTag(HashtagEntity[] tags) {
+        if(tags != null) {
+            for(HashtagEntity tag : tags) {
+                int start = tag.getStart();
+                int end = tag.getEnd();
+
+                try {
+                    String encodedUrl = TWITTER_SEARCH_URL + URLEncoder.encode('#' + tag.getText(), "UTF-8");
+                    String href = "<a href='" + encodedUrl + "' target='search'>";
+                    TweetFragment fragment = new TweetFragment(start, end, href
+                            + '#' + tag.getText() + "</a>");
+
+                    fragments.add(fragment);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     void createFragmentsWithUrl(URLEntity[] urls) {
         if(urls != null) {
             for(URLEntity url : urls) {
@@ -51,6 +90,10 @@ public class TweetColumnDecorator implements Table.ColumnGenerator {
                 int start = url.getStart();
                 int end = url.getEnd();
                 String href = "<a href='" + expandedUrl
+                        + "' target='_blank' + title='" + expandedUrl + "'>";
+                TweetFragment fragment = new TweetFragment(start, end, href + url.getURL() + "</a>");
+
+                fragments.add(fragment);
             }
         }
     }

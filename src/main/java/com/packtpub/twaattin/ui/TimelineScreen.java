@@ -34,7 +34,7 @@ public class TimelineScreen extends VerticalLayout {
         addComponent(table);
 
         table.addGeneratedColumn("source", new SourceColumnDecorator());
-        table.addGeneratedColumn("screeName", new ScreenNameColumnGenerator());
+        table.addGeneratedColumn("screenName", new ScreenNameColumnGenerator());
         table.addGeneratedColumn("name", new NameColumnGenerator());
         table.addGeneratedColumn("profileImage", new ProfileImageColumnGenerator());
         table.addGeneratedColumn("text", new TweetColumnDecorator());
