@@ -3,7 +3,11 @@ package com.packtpub.twaattin.ui;
 import com.packtpub.twaattin.presenter.LoginBehavior;
 import com.packtpub.twaattin.service.TwitterService;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.ui.*;
+import com.vaadin.server.SystemError;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Link;
+import com.vaadin.ui.TextField;
+import com.vaadin.ui.VerticalLayout;
 
 
 public class LoginScreen extends VerticalLayout {
@@ -18,7 +22,12 @@ public class LoginScreen extends VerticalLayout {
 
         twitterLink.setCaption("Get PIN");
         twitterLink.setTargetName("twitterauth");
-        twitterLink.setResource(new ExternalResource(TwitterService.get().getAuthenticationUrl()));
+
+        try {
+            twitterLink.setResource(new ExternalResource(TwitterService.get().getAuthenticationUrl()));
+        } catch (Exception e) {
+            twitterLink.setComponentError(new SystemError(e));
+        }
 
         pinField.setInputPrompt("PIN");
 

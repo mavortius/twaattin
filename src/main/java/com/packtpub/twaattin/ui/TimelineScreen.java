@@ -2,9 +2,11 @@ package com.packtpub.twaattin.ui;
 
 import com.packtpub.twaattin.presenter.LogoutBehavior;
 import com.packtpub.twaattin.presenter.TweetRefresherBehavior;
-import com.packtpub.twaattin.ui.decorator.*;
 import com.vaadin.server.VaadinSession;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.VerticalLayout;
 
 import java.security.Principal;
 
@@ -25,38 +27,20 @@ public class TimelineScreen extends VerticalLayout {
 
         menuBar.setWidth(100, PERCENTAGE);
         menuBar.setComponentAlignment(button, MIDDLE_RIGHT);
+        menuBar.setMargin(true);
 
         addComponent(menuBar);
-        addComponentAttachListener(new TweetRefresherBehavior());
 
-        Table table = new Table();
+        TweetRefresherBehavior behavior = TwaattinUI.getCurrent().getTweetRefresherBehavior();
 
-        addComponent(table);
+        addComponentAttachListener(behavior);
 
-        table.addGeneratedColumn("source", new SourceColumnDecorator());
-        table.addGeneratedColumn("screenName", new ScreenNameColumnGenerator());
-        table.addGeneratedColumn("name", new NameColumnGenerator());
-        table.addGeneratedColumn("profileImage", new ProfileImageColumnGenerator());
-        table.addGeneratedColumn("text", new TweetColumnDecorator());
-        table.setColumnHeader("source", "via");
-        table.setColumnHeader("screenName", "Screen name");
-        table.setColumnHeader("profileImage", "");
-        table.setColumnHeader("text", "Tweet");
-        table.setVisibleColumns(new Object[] {
-                "text", "name", "screenName", "profileImage", "createdAt", "source"
-        });
-    }
+        VerticalLayout timeline = new VerticalLayout();
 
-    public void fillTweets() {
-        for (int i = 0; i < 10; i++) {
-            Label label = new Label();
+        timeline.addStyleName("p-timeline");
 
-            label.setValue("Lorem ipsum dolor sit amet, consectetur "
-                    + "adipisicing elit, sed do eiusmod tempor incididunt "
-                    + "ut labore et dolore magna aliqua. Ut enim ad minim "
-                    + "veniam, quis nostrud exercitation ullamco laboris "
-                    + "nisi ut aliquip ex ea commodo consequat.");
-            addComponent(label);
-        }
+        addComponent(timeline);
     }
 }
+
+

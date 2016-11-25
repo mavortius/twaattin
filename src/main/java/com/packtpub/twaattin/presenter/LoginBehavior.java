@@ -3,6 +3,7 @@ package com.packtpub.twaattin.presenter;
 import com.packtpub.twaattin.authentication.AuthenticationException;
 import com.packtpub.twaattin.authentication.TwitterAuthenticationStrategy;
 import com.packtpub.twaattin.ui.TimelineScreen;
+import com.vaadin.server.SystemError;
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.Notification;
@@ -10,8 +11,6 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 
 import java.security.Principal;
-
-import static com.vaadin.ui.Notification.Type.ERROR_MESSAGE;
 
 /**
  * Login behavior delegates to a predefined authentication strategy.
@@ -34,7 +33,7 @@ public class LoginBehavior implements Button.ClickListener {
             UI.getCurrent().setContent(new TimelineScreen());
             Notification.show("You're authenticated into Twaattin");
         } catch (AuthenticationException e) {
-            Notification.show(e.getMessage(), ERROR_MESSAGE);
+            pinField.setComponentError(new SystemError(e));
         }
     }
 }

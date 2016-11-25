@@ -1,9 +1,7 @@
 package com.packtpub.twaattin.service;
 
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
+import com.vaadin.ui.UI;
+import twitter4j.*;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.ConfigurationBuilder;
@@ -12,7 +10,7 @@ import java.util.List;
 
 public class TwitterService {
     private ConfigurationBuilder builder = new ConfigurationBuilder();
-    private Twitter twitter = null;
+    private TwitterStream twitter = null;
 
     private static TwitterService singleton = new TwitterService();
 
@@ -26,8 +24,10 @@ public class TwitterService {
                 .setOAuthAccessToken("568429611-OU8LJpBHSLl9YbepJQsj9lkgta8olOflCi4p6Kpb")
                 .setOAuthAccessTokenSecret("ds7qWiacTCLZBZTRCs2RNc61B5VcJhNl3Ejur0j2uNABf");
 
-        TwitterFactory factory = new TwitterFactory(builder.build());
-        this.twitter = factory.getInstance();
+        TwitterStreamFactory factory = new TwitterStreamFactory(builder.build());
+        twitter = factory.getInstance();
+
+        twitter.addListener((UserStreamListener) UI.getCurrent());
     }
 
     public static TwitterService get() {
@@ -51,11 +51,9 @@ public class TwitterService {
         requestToken = null;
 
         twitter.setOAuthAccessToken(accessToken);
+        twitter.user();
 
         return twitter.getScreenName();
     }
 
-    public List<Status> getTweets() throws TwitterException {
-        return twitter.getUserTimeline();
-    }
 }
