@@ -11,25 +11,15 @@ import static com.vaadin.shared.ui.label.ContentMode.HTML;
 
 public class StatusComponent extends CustomComponent {
     public StatusComponent(StatusDto dto) {
-        addStyleName("p-status-component");
         ExternalResource userPage = new ExternalResource(StatusConverter.TWITTER_USER_URL +
                                             dto.getScreenName());
         Link name = new Link(dto.getName(), userPage);
-
-        name.setStyleName("p-user-name");
-
         Label screenName = new Label('@' + dto.getScreenName());
-
-        screenName.setStyleName("p-screen-name");
-
         HorizontalLayout names = new HorizontalLayout(name, screenName);
 
         names.setSpacing(true);
 
         Label tweet = new Label(dto.getTweet(), HTML);
-
-        tweet.addStyleName("p-tweet");
-
         HorizontalLayout actionsBar = new HorizontalLayout(new Button("Reply"), new Button("Retweet"), new Button("Favorite"));
 
         actionsBar.setSpacing(true);
@@ -42,9 +32,6 @@ public class StatusComponent extends CustomComponent {
             rightSide = new VerticalLayout(names, tweet, actionsBar);
         } else {
             Label label = new Label("Retweeted by " + retweetedBy, HTML);
-
-            label.addStyleName("p-retweeted-by");
-
             rightSide = new VerticalLayout(names, tweet, label, actionsBar);
         }
 

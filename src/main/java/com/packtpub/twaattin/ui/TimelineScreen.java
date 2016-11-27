@@ -31,13 +31,9 @@ public class TimelineScreen extends VerticalLayout {
 
         addComponent(menuBar);
 
-        TweetRefresherBehavior behavior = TwaattinUI.getCurrent().getTweetRefresherBehavior();
-
-        addComponentAttachListener(behavior);
+        addComponentAttachListener(new TweetRefresherBehavior());
 
         VerticalLayout timeline = new VerticalLayout();
-
-        timeline.addStyleName("p-timeline");
 
         addComponent(timeline);
     }

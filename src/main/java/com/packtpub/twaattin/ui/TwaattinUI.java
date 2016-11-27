@@ -7,6 +7,7 @@ import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.server.SystemError;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.shared.ui.ui.Transport;
 import com.vaadin.ui.UI;
 import twitter4j.*;
 import twitter4j.conf.ConfigurationBuilder;
@@ -46,12 +47,7 @@ public class TwaattinUI extends UI implements UserStreamListener {
 
     @Override
     public void onStatus(Status status) {
-        access(new Runnable() {
-            @Override
-            public void run() {
-                tweetRefresherBehavior.updatedStatus(status);
-            }
-        });
+        access(() -> tweetRefresherBehavior.updatedStatus(status));
     }
 
     @Override
